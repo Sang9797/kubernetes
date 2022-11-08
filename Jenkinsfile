@@ -1,10 +1,18 @@
 pipeline {
     agent any
     stages {
-        stage('Clone') {
+        stage('Clone stage') {
             steps {
                 git 'https://github.com/sang9797907/kubernetes.git'
             }
         }
-    }
+        stage('Build stage') {
+            steps {
+                withDockerRegistry(credentialsId: 'docker-hub', url: 'https://hub.docker.com/repository/docker/191197/spring-batch') {
+                    sh 'docker build -t 191197/spring-batch:v1.0.0 .'
+                    sh 'docker push 191197/spring-batch:v1.0.0'
+                }
+            }
+        }
+}
 }
