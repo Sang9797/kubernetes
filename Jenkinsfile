@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    tools {dockerTool  "docker" }
     stages {
         stage('Clone stage') {
             steps {
@@ -8,7 +9,6 @@ pipeline {
         }
         stage('Build stage') {
             steps {
-                    sh 'sudo docker ps'
                 withDockerRegistry(credentialsId: 'docker-hub', url: 'https://index.docker.io/v1/') {
                     sh 'docker build -t 191197/spring-batch:v1.0.0 .'
                     sh 'docker push 191197/spring-batch:v1.0.0'
